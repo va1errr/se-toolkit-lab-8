@@ -13,8 +13,9 @@
   - [1.4. Set up programs](#14-set-up-programs)
     - [1.4.1. (UPD) Set up `VS Code`](#141-upd-set-up-vs-code)
     - [1.4.2. (UPD) Set up `Docker`](#142-upd-set-up-docker)
-    - [1.4.3. (UPD) (`Windows` only) Set the default shell for the `VS Code Terminal`](#143-upd-windows-only-set-the-default-shell-for-the-vs-code-terminal)
-    - [1.4.4. Set up `Git`](#144-set-up-git)
+    - [1.4.3. (UPD) (`Windows` only) Switch to the `Linux` shell for the `VS Code Terminal`](#143-upd-windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal)
+    - [1.4.4. Clean up `Docker`](#144-clean-up-docker)
+    - [1.4.5. Set up `Git`](#145-set-up-git)
   - [1.5. (UPD) Open in `VS Code` the `software-engineering-toolkit` directory](#15-upd-open-in-vs-code-the-software-engineering-toolkit-directory)
   - [1.6. Clone your fork](#16-clone-your-fork)
     - [1.6.1. (UPD) Copy your fork URL](#161-upd-copy-your-fork-url)
@@ -24,7 +25,7 @@
   - [1.9. Set up `Python`](#19-set-up-python)
     - [1.9.1. Install `uv`](#191-install-uv)
     - [1.9.2. (UPD) Set up `Python` in `VS Code`](#192-upd-set-up-python-in-vs-code)
-  - [1.10. (UPD) Prepare `Docker`](#110-upd-prepare-docker)
+  - [1.10. (UPD) Set up `Node.js`](#110-upd-set-up-nodejs)
   - [1.11. Start the services](#111-start-the-services)
     - [1.11.1. (UPD) Set up the `Docker` environment](#1111-upd-set-up-the-docker-environment)
     - [1.11.2. (UPD) Start the services using `Docker Compose`](#1112-upd-start-the-services-using-docker-compose)
@@ -138,13 +139,20 @@
 2. [Install `Docker`](../../wiki/docker.md#install-docker) if it's not installed.
 3. [Start `Docker`](../../wiki/docker.md#start-docker).
 
-#### 1.4.3. (UPD) (`Windows` only) Set the default shell for the `VS Code Terminal`
+#### 1.4.3. (UPD) (`Windows` only) Switch to the `Linux` shell for the `VS Code Terminal`
 
 1. [Check the current shell in the `VS Code Terminal`](../../wiki/vs-code.md#check-the-current-shell-in-the-vs-code-terminal).
-2. If it's not `bash` or `zsh`, [set the default shell](../../wiki/vs-code.md#windows-only-set-the-default-shell-for-the-vs-code-terminal).
+2. If it's not `bash` or `zsh`, [switch to the `Linux` shell for the `VS Code Terminal`](../../wiki/vs-code.md#windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal).
 3. [Check the current shell](../../wiki/vs-code.md#check-the-current-shell-in-the-vs-code-terminal) again.
 
-#### 1.4.4. Set up `Git`
+#### 1.4.4. Clean up `Docker`
+
+1. [Clean up `Docker`](../../wiki/docker.md#clean-up-docker).
+
+   **Note:** Old containers and volumes from a previous lab version may conflict with the updated services.
+   Stop running containers, remove stopped containers, and delete unused volumes so you start with a clean state.
+
+#### 1.4.5. Set up `Git`
 
 1. (Optional) [Read about `Git`](../../wiki/git.md#what-is-git).
 2. [Install `Git`](https://git-scm.com/install/) if it's not installed.
@@ -194,7 +202,7 @@
 
 <h4>The terminal shell is not <code>bash</code> or <code>zsh</code></h4>
 
-Go back to [step 1.4.3](#143-upd-windows-only-set-the-default-shell-for-the-vs-code-terminal) and set the default shell.
+Go back to [step 1.4.3](#143-upd-windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal) and set the default shell.
 
 <h4>Recommended extensions did not install</h4>
 
@@ -232,14 +240,11 @@ If you can't [connect to your VM](../../wiki/vm.md#connect-to-the-vm), complete 
 
 1. [Set up `Python` in `VS Code`](../../wiki/python.md#set-up-python-in-vs-code).
 
-### 1.10. (UPD) Prepare `Docker`
+### 1.10. (UPD) Set up `Node.js`
 
-> [!NOTE]
-> Old containers and volumes from a previous lab version may conflict with the updated services.
-> Stop running containers, remove stopped containers, and delete unused volumes so you start with a clean state.
+1. [Set up `Node.js`](../../wiki/nodejs.md#set-up-nodejs-in-vs-code).
 
-1. [Start `Docker`](../../wiki/docker.md#start-docker).
-2. [Clean up `Docker`](../../wiki/docker.md#clean-up-docker).
+   **Note:** you've already opened the project directory.
 
 ### 1.11. Start the services
 
