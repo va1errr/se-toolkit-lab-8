@@ -21,9 +21,7 @@ No issues found.
 
 ### D3. Student navigation
 
-1. **[High]** Lines 1–15 — Missing `<h4>Diagram</h4>` section between Context and Table of contents. The task involves actions across multiple actors and environments (local machine, VM, GitHub, Autochecker API). A Mermaid sequence diagram is required by the task template convention (Section 1.1) to show the overall task flow before students begin the steps.
-
-   **Suggested fix:** Add a `<h4>Diagram</h4>` section with a Mermaid `sequenceDiagram` showing the flow: Developer explores API locally (Part A), implements pipeline locally, tests via Swagger, pushes to GitHub, pulls and tests on VM, creates PR.
+No issues found.
 
 ### D4. Checkpoints and feedback loops
 
@@ -79,9 +77,7 @@ No issues found.
 
 ### Section 1. Task document template
 
-1. **Lines 1–15:** Missing `<h4>Diagram</h4>` section. The task template (Section 1.1) requires a Mermaid sequence diagram when the task involves actions across multiple actors or environments. This task spans local machine, VM, GitHub, and the Autochecker API.
-
-2. **Lines 42–63:** Step 1.2 combines issue creation (lines 44–48) and branch creation (lines 50–58) with an explanatory note (lines 60–63). The task template shows step 1.2 as only issue creation (`Title: [Task] <Task title>`). Branch creation is part of the Git workflow referenced in step 1.1.
+1. **Lines 42–63:** Step 1.2 combines issue creation (lines 44–48) and branch creation (lines 50–58) with an explanatory note (lines 60–63). The task template shows step 1.2 as only issue creation (`Title: [Task] <Task title>`). Branch creation is part of the Git workflow referenced in step 1.1.
 
 ### 4.1. Instructions wording
 
@@ -133,7 +129,7 @@ No issues found.
 
 ### 4.13. Diagrams
 
-1. **Lines 1–15:** No diagram present. See Section 1 finding #1 above.
+No issues found.
 
 ### 4.14. `<!-- TODO -->` comments
 
@@ -205,12 +201,12 @@ No empty sections found.
 
 | Category                | Count |
 | ----------------------- | ----- |
-| Conceptual — High       | 2     |
+| Conceptual — High       | 1     |
 | Conceptual — Medium     | 3     |
 | Conceptual — Low        | 2     |
-| Convention violations   | 3     |
+| Convention violations   | 1     |
 | TODOs                   | 0     |
 | Empty sections          | 0     |
-| **Total**               | **10** |
+| **Total**               | **7** |
 
-**Overall assessment:** The task is well-structured with clear steps, good checkpoints, proper troubleshooting blocks, and well-aligned acceptance criteria. The two high-severity issues are the missing Mermaid sequence diagram (required for multi-actor/multi-environment tasks) and the LLM-independence violation (step 1.4.2 requires an AI agent without providing a non-AI alternative or labeling the step as AI-required). Remaining convention violations: the missing `<h4>Diagram</h4>` section (Section 1 #1 and 4.13 #1) and the combined issue+branch step (Section 1 #2).
+**Overall assessment:** The task is well-structured with clear steps, good checkpoints, proper troubleshooting blocks, and well-aligned acceptance criteria. The remaining high-severity issue is the LLM-independence violation (step 1.4.2 requires an AI agent without providing a non-AI alternative or labeling the step as AI-required). Medium issues: missing Qwen code startup instructions (D2, D7) and missing AI curation annotations (D11). Low issues: unexplained HTTP Basic Auth (D10) and missing post-generation verification checkpoint (D11). Convention violation: the combined issue+branch step (Section 1 #1).
