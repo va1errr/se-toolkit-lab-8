@@ -95,7 +95,9 @@ We refer to your fork as `fork` and to the original repo as `upstream`.
 
 ### 1.3. Start the services locally
 
-1. Start the services in the background:
+1. (`Windows`/`macOS`) Make sure [Docker Desktop](../../wiki/docker.md#start-docker) is running.
+
+2. Start the services in the background:
 
    ```terminal
    docker compose --env-file .env.docker.secret up --build -d
@@ -139,6 +141,21 @@ We refer to your fork as `fork` and to the original repo as `upstream`.
    docker compose --env-file .env.docker.secret down -v
    docker compose --env-file .env.docker.secret up --build -d
    ```
+
+   <h4>DNS resolution errors (<code>getaddrinfo EAI_AGAIN</code>)</h4>
+
+   If you see DNS errors like `getaddrinfo EAI_AGAIN registry.npmjs.org`, Docker can't resolve domain names. This is a university network DNS issue. Add Google DNS to Docker:
+
+   ```terminal
+   sudo tee /etc/docker/daemon.json <<'EOF'
+   {
+     "dns": ["8.8.8.8", "8.8.4.4"]
+   }
+   EOF
+   sudo systemctl restart docker
+   ```
+
+   Then run the `docker compose up` command again.
 
    </details>
 
