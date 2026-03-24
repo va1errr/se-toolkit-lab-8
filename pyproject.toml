@@ -103,7 +103,6 @@ cmd = "docker run --rm -v ./client-web-flutter:/app -w /app harbor.pg.innopolis.
 [tool.poe.tasks.query-qwen-code-api]
 help = "Query the Qwen Code API: poe query-qwen-code-api [OPTIONS] <prompt>"
 cmd = "python scripts/query-qwen-code-api.py"
-envfile = "client-telegram-bot/.env.secret"
 
 # Bot
 
