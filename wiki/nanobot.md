@@ -33,6 +33,7 @@ Clients connect via `WebSocket` and exchange `JSON` messages to send questions a
 The webchat channel [listens on](./computer-networks.md#listen-on-a-port) the [address](./computer-networks.md#ip-address) and [port](./computer-networks.md#port-number) configured by [`NANOBOT_WEBCHAT_CONTAINER_ADDRESS`](./dotenv-docker-secret.md#nanobot_webchat_container_address) and [`NANOBOT_WEBCHAT_CONTAINER_PORT`](./dotenv-docker-secret.md#nanobot_webchat_container_port) in [`.env.docker.secret`](./dotenv-docker-secret.md#what-is-envdockersecret).
 
 [`Caddy`](./caddy.md#what-is-caddy) [forwards requests](./web-infrastructure.md#forward-request) from `/ws/chat` to the webchat channel.
+The web client must also provide the [`NANOBOT_ACCESS_KEY`](./dotenv-docker-secret.md#nanobot_access_key) configured for that deployment.
 
 ## MCP server
 
@@ -40,6 +41,7 @@ The MCP (`Model Context Protocol`) server exposes the [LMS API](./lms-api.md#abo
 When a user asks a question, the agent may call these tools to fetch course data before composing a response.
 
 The MCP server runs as a `stdio` process inside the `Nanobot` [container](./docker.md#container).
+It authenticates to the LMS with the deployment's own `NANOBOT_LMS_API_KEY` / `LMS_API_KEY`, not with credentials from the web client.
 
 ## How clients connect
 
@@ -47,6 +49,6 @@ Both the [`Telegram` bot client](./client-telegram-bot.md#about-the-telegram-bot
 
 - The [`Telegram` bot client](./client-telegram-bot.md#about-the-telegram-bot-client) forwards free-text messages to `Nanobot` via [`WebSocket`](./websocket.md#what-is-websocket).
   Slash commands (e.g., `/scores`, `/labs`) are handled directly by the bot without involving `Nanobot`.
-- The `Flutter` web app connects to the webchat channel directly.
+- The `Flutter` web app connects to the webchat channel directly and authenticates with the deployment access key.
 
 The [`WebSocket` URL](./websocket.md#websocket-url) is configured by [`NANOBOT_WS_URL`](./dotenv-docker-secret.md#nanobot_ws_url) in [`.env.docker.secret`](./dotenv-docker-secret.md#what-is-envdockersecret).

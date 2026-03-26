@@ -49,6 +49,7 @@
   - [`NANOBOT_GATEWAY_CONTAINER_PORT`](#nanobot_gateway_container_port)
   - [`NANOBOT_WEBCHAT_CONTAINER_ADDRESS`](#nanobot_webchat_container_address)
   - [`NANOBOT_WEBCHAT_CONTAINER_PORT`](#nanobot_webchat_container_port)
+  - [`NANOBOT_ACCESS_KEY`](#nanobot_access_key)
   - [`NANOBOT_WS_URL`](#nanobot_ws_url)
 - [Constants](#constants)
   - [`CONST_POSTGRESQL_SERVICE_NAME`](#const_postgresql_service_name)
@@ -341,6 +342,13 @@ Default: [`0.0.0.0`](./computer-networks.md#0000)
 The [port number](./computer-networks.md#port-number) the [`Nanobot` webchat channel](./nanobot.md#webchat-channel) [`WebSocket`](./websocket.md#what-is-websocket) server [listens on](./computer-networks.md#listen-on-a-port) inside the [container](./docker.md#container).
 
 Default: `8765`
+
+### `NANOBOT_ACCESS_KEY`
+
+The password that protects access to the [`Nanobot` web client](./nanobot.md#webchat-channel).
+
+Set this yourself in `.env.docker.secret`.
+There is no default value on purpose.
 
 ### `NANOBOT_WS_URL`
 

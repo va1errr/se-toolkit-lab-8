@@ -399,14 +399,14 @@ Client → server messages remain `{"content": "text"}`. Button taps send the `v
 
 **Agent output:** The LLM agent can output structured JSON when instructed by `SKILL.md` (e.g. `choice` when a lab parameter is missing). If the output is not valid JSON with a `type` field, the webchat plugin wraps it as a `text` message automatically.
 
-**Rationale:** A string-only protocol forces every response into flat text. Clients like Telegram and Flutter have rich UI primitives (inline keyboards, chips, dialogs) that are unreachable without structured messages. The typed approach keeps nanobot client-agnostic — it describes *intent*, not *presentation*.
+**Rationale:** A string-only protocol forces every response into flat text. Clients like Telegram and Flutter can render richer UI when it helps, but that rendering is optional. The typed approach keeps nanobot client-agnostic — it describes *intent*, not *presentation*.
 
 ---
 
-### 7.9 Per-User Authentication via WebSocket Query Parameter
+### 7.9 Access Control via WebSocket Query Parameter
 
-**Decision:** Each client passes the user's LMS API key as a query parameter when opening the WebSocket connection: `ws://nanobot:8765?api_key=SECRET`. The webchat plugin reads the key and prepends `[LMS_API_KEY=<key>]` to every message so the LLM agent can use it in curl commands. Nanobot itself has no hardcoded `LMS_API_KEY`.
+**Decision:** The web client passes a Nanobot access key when opening the WebSocket connection: `ws://nanobot:8765?access_key=SECRET`. The webchat plugin validates it against `NANOBOT_ACCESS_KEY` and rejects unauthenticated connections. The agent reaches the LMS using its own server-side `LMS_API_KEY` / `NANOBOT_LMS_API_KEY`, not by asking the web client for backend credentials.
 
-**Rationale:** This keeps authentication per-user rather than per-deployment. Users provide their own key via `/login <key>` (Telegram) or a login screen (Flutter). The key travels with the WebSocket connection (stateless, no handshake protocol), and the agent is instructed to never echo it back.
+**Rationale:** The browser UI should stay generic. It only needs a deployment access password so random students cannot open someone else's Nanobot UI and issue commands. LMS backend authentication remains server-side, where it belongs.
 
-**Discarded alternative:** Pass the key as a first-message auth handshake (`{"type": "auth", "api_key": "..."}`). Adds a mini-protocol with ordering rules and error cases for no benefit over a query parameter.
+**Discarded alternative:** Pass the access key as a first-message auth handshake (`{"type": "auth", "access_key": "..."}`). Adds a mini-protocol with ordering rules and error cases for no benefit over a query parameter.

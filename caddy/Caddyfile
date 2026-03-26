@@ -20,9 +20,7 @@
         rewrite * /v1{uri}
         reverse_proxy http://qwen-code-api:{$QWEN_CODE_API_CONTAINER_PORT}
     }
-    handle /ws/chat {
-        reverse_proxy http://nanobot:{$NANOBOT_WEBCHAT_CONTAINER_PORT}
-    }
+    # Students add /ws/chat route here during Task 1A.
     handle_path /utils/pgadmin* {
         reverse_proxy http://pgadmin:{$CONST_PGADMIN_CONTAINER_PORT}
     }
@@ -38,11 +36,7 @@
     handle /openapi.json {
         reverse_proxy http://backend:{$BACKEND_CONTAINER_PORT}
     }
-    handle_path /flutter* {
-        root * /srv/flutter
-        try_files {path} /index.html
-        file_server
-    }
+    # Students add /flutter route here during Task 1C.
     handle {
         root * /srv/react
         try_files {path} /index.html

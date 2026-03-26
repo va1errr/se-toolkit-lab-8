@@ -92,14 +92,7 @@ services:
     volumes:
       - client-web-react:/output
 
-  client-web-flutter:
-    build:
-      context: client-web-flutter/
-      args:
-        REGISTRY_PREFIX_DOCKER_HUB: ${REGISTRY_PREFIX_DOCKER_HUB:?'REGISTRY_PREFIX_DOCKER_HUB is required'}
-        REGISTRY_PREFIX_GHCR: ${REGISTRY_PREFIX_GHCR:?'REGISTRY_PREFIX_GHCR is required'}
-    volumes:
-      - client-web-flutter:/output
+  # Students add client-web-flutter and nanobot services here during Task 1.
 
   caddy:
     image: ${REGISTRY_PREFIX_DOCKER_HUB}caddy:2.11-alpine
@@ -108,15 +101,12 @@ services:
     depends_on:
       - backend
       - client-web-react
-      - client-web-flutter
-      - nanobot
       - qwen-code-api
       - victorialogs
       - victoriatraces
     environment:
       - CADDY_CONTAINER_PORT=${CADDY_CONTAINER_PORT:?'CADDY_CONTAINER_PORT is required'}
       - BACKEND_CONTAINER_PORT=${BACKEND_CONTAINER_PORT:?'BACKEND_CONTAINER_PORT is required'}
-      - NANOBOT_WEBCHAT_CONTAINER_PORT=${NANOBOT_WEBCHAT_CONTAINER_PORT:?'NANOBOT_WEBCHAT_CONTAINER_PORT is required'}
       - QWEN_CODE_API_CONTAINER_PORT=${QWEN_CODE_API_CONTAINER_PORT:?'QWEN_CODE_API_CONTAINER_PORT is required'}
       - CONST_PGADMIN_CONTAINER_PORT=${CONST_PGADMIN_CONTAINER_PORT:?'CONST_PGADMIN_CONTAINER_PORT is required'}
       - CONST_VICTORIALOGS_CONTAINER_PORT=${CONST_VICTORIALOGS_CONTAINER_PORT:?'CONST_VICTORIALOGS_CONTAINER_PORT is required'}
@@ -126,28 +116,6 @@ services:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - client-web-react:/srv/react:ro
-      - client-web-flutter:/srv/flutter:ro
-
-  nanobot:
-    build:
-      context: ./nanobot
-      additional_contexts:
-        workspace: .
-      args:
-        REGISTRY_PREFIX_DOCKER_HUB: ${REGISTRY_PREFIX_DOCKER_HUB:?'REGISTRY_PREFIX_DOCKER_HUB is required'}
-    restart: unless-stopped
-    networks:
-      - lms-network
-    environment:
-      - NANOBOT_LMS_BACKEND_URL=http://backend:${BACKEND_CONTAINER_PORT}
-      - NANOBOT_GATEWAY_CONTAINER_ADDRESS=${NANOBOT_GATEWAY_CONTAINER_ADDRESS:?'NANOBOT_GATEWAY_CONTAINER_ADDRESS is required'}
-      - NANOBOT_GATEWAY_CONTAINER_PORT=${NANOBOT_GATEWAY_CONTAINER_PORT:?'NANOBOT_GATEWAY_CONTAINER_PORT is required'}
-      - NANOBOT_WEBCHAT_CONTAINER_ADDRESS=${NANOBOT_WEBCHAT_CONTAINER_ADDRESS:?'NANOBOT_WEBCHAT_CONTAINER_ADDRESS is required'}
-      - NANOBOT_WEBCHAT_CONTAINER_PORT=${NANOBOT_WEBCHAT_CONTAINER_PORT:?'NANOBOT_WEBCHAT_CONTAINER_PORT is required'}
-      - NANOBOT_PROVIDERS__CUSTOM__API_KEY=${LLM_API_KEY:?'LLM_API_KEY is required'}
-      - NANOBOT_PROVIDERS__CUSTOM__API_BASE=${LLM_API_BASE_URL:?'LLM_API_BASE_URL is required'}
-    depends_on:
-      - backend
 
   qwen-code-api:
     build:
@@ -188,21 +156,7 @@ services:
       retries: 3
       start_period: 10s
 
-  client-telegram-bot:
-    build:
-      context: ./client-telegram-bot
-      additional_contexts:
-        workspace: .
-      args:
-        REGISTRY_PREFIX_DOCKER_HUB: ${REGISTRY_PREFIX_DOCKER_HUB:?'REGISTRY_PREFIX_DOCKER_HUB is required'}
-    restart: unless-stopped
-    networks:
-      - lms-network
-    environment:
-      - BOT_TOKEN=${BOT_TOKEN:?'BOT_TOKEN is required'}
-      - NANOBOT_WS_URL=${NANOBOT_WS_URL:?'NANOBOT_WS_URL is required'}
-    depends_on:
-      - nanobot
+  # Students add client-telegram-bot service here during Optional Task 1.
 
   victorialogs:
     image: ${REGISTRY_PREFIX_DOCKER_HUB}victoriametrics/victoria-logs:latest

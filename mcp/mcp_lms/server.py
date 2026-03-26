@@ -24,11 +24,11 @@ server = Server("lms")
 # ---------------------------------------------------------------------------
 
 
-class _KeyOnly(BaseModel):
-    api_key: str = Field(description="Bearer token for LMS API authentication.")
+class _NoArgs(BaseModel):
+    """Empty input model for tools that only need server-side configuration."""
 
 
-class _LabQuery(_KeyOnly):
+class _LabQuery(BaseModel):
     lab: str = Field(description="Lab identifier, e.g. 'lab-04'.")
 
 
@@ -43,12 +43,22 @@ class _TopLearnersQuery(_LabQuery):
 # ---------------------------------------------------------------------------
 
 
-def _client(api_key: str) -> LMSClient:
+def _resolve_api_key() -> str:
+    for name in ("NANOBOT_LMS_API_KEY", "LMS_API_KEY"):
+        value = os.environ.get(name, "").strip()
+        if value:
+            return value
+    raise RuntimeError(
+        "LMS API key not configured. Set NANOBOT_LMS_API_KEY or LMS_API_KEY."
+    )
+
+
+def _client() -> LMSClient:
     if not _base_url:
         raise RuntimeError(
             "LMS backend URL not configured. Pass it as: python -m mcp_lms <base_url>"
         )
-    return LMSClient(_base_url, api_key)
+    return LMSClient(_base_url, _resolve_api_key())
 
 
 def _text(data: BaseModel | Sequence[BaseModel]) -> list[TextContent]:
@@ -65,43 +75,41 @@ def _text(data: BaseModel | Sequence[BaseModel]) -> list[TextContent]:
 # ---------------------------------------------------------------------------
 
 
-async def _health(args: _KeyOnly) -> list[TextContent]:
-    return _text(await _client(args.api_key).health_check())
+async def _health(_args: _NoArgs) -> list[TextContent]:
+    return _text(await _client().health_check())
 
 
-async def _labs(args: _KeyOnly) -> list[TextContent]:
-    items = await _client(args.api_key).get_items()
+async def _labs(_args: _NoArgs) -> list[TextContent]:
+    items = await _client().get_items()
     return _text([i for i in items if i.type == "lab"])
 
 
-async def _learners(args: _KeyOnly) -> list[TextContent]:
-    return _text(await _client(args.api_key).get_learners())
+async def _learners(_args: _NoArgs) -> list[TextContent]:
+    return _text(await _client().get_learners())
 
 
 async def _pass_rates(args: _LabQuery) -> list[TextContent]:
-    return _text(await _client(args.api_key).get_pass_rates(args.lab))
+    return _text(await _client().get_pass_rates(args.lab))
 
 
 async def _timeline(args: _LabQuery) -> list[TextContent]:
-    return _text(await _client(args.api_key).get_timeline(args.lab))
+    return _text(await _client().get_timeline(args.lab))
 
 
 async def _groups(args: _LabQuery) -> list[TextContent]:
-    return _text(await _client(args.api_key).get_groups(args.lab))
+    return _text(await _client().get_groups(args.lab))
 
 
 async def _top_learners(args: _TopLearnersQuery) -> list[TextContent]:
-    return _text(
-        await _client(args.api_key).get_top_learners(args.lab, limit=args.limit)
-    )
+    return _text(await _client().get_top_learners(args.lab, limit=args.limit))
 
 
 async def _completion_rate(args: _LabQuery) -> list[TextContent]:
-    return _text(await _client(args.api_key).get_completion_rate(args.lab))
+    return _text(await _client().get_completion_rate(args.lab))
 
 
-async def _sync_pipeline(args: _KeyOnly) -> list[TextContent]:
-    return _text(await _client(args.api_key).sync_pipeline())
+async def _sync_pipeline(_args: _NoArgs) -> list[TextContent]:
+    return _text(await _client().sync_pipeline())
 
 
 # ---------------------------------------------------------------------------
@@ -133,12 +141,12 @@ def _register(
 _register(
     "lms_health",
     "Check if the LMS backend is healthy and report the item count.",
-    _KeyOnly,
+    _NoArgs,
     _health,
 )
-_register("lms_labs", "List all labs available in the LMS.", _KeyOnly, _labs)
+_register("lms_labs", "List all labs available in the LMS.", _NoArgs, _labs)
 _register(
-    "lms_learners", "List all learners registered in the LMS.", _KeyOnly, _learners
+    "lms_learners", "List all learners registered in the LMS.", _NoArgs, _learners
 )
 _register(
     "lms_pass_rates",
@@ -173,7 +181,7 @@ _register(
 _register(
     "lms_sync_pipeline",
     "Trigger the LMS sync pipeline. May take a moment.",
-    _KeyOnly,
+    _NoArgs,
     _sync_pipeline,
 )
 
