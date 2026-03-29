@@ -1,0 +1,20 @@
+[project]
+name = "nanobot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.14.*"
+dependencies = [
+    "mcp-lms",
+    "mcp-obs",
+    "mcp-webchat",
+    "nanobot-ai",
+    "nanobot-webchat",
+]
+
+[tool.uv.sources]
+nanobot-ai = { url = "https://github.com/HKUDS/nanobot/archive/refs/heads/main.zip" }
+mcp-lms = { workspace = true }
+mcp-obs = { workspace = true }
+mcp-webchat = { workspace = true }
+nanobot-webchat = { workspace = true }
